@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import ClockTimer from "./ClockTimer";
 
 ReactDOM.render(
-    <div />,
+    <ClockTimer />,
   document.getElementById('root')
 );
