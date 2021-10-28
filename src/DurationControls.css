@@ -1,0 +1,6 @@
+#duration-ctrls{
+  background-color: rgb(165, 103, 103);
+  display : flex;
+  width : 100%;
+  justify-content: space-between;
+}

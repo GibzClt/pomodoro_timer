@@ -1,9 +1,23 @@
 import React from "react";
 
-function MainControls(){
+function MainControls({changeSession, changeBreak}){
+
+  // const handlePlayClick=()=>{
+  //   if(play){
+  //     setPlay(false);
+  //   }else{
+  //     setPlay(true);
+  //   }
+  // }
+
+  const handleResetClick=()=>{
+    changeBreak("0");
+  }
+
   return (
     <div>
-      Main Controls
+      {/* <button onClick={handlePlayClick}>PLAY / PAUSE</button> */}
+      <button onClick={handleResetClick}>RESET</button>
     </div>
   )
 }
