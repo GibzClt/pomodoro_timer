@@ -2,29 +2,6 @@ import React from "react";
 import "./DurationControls.css";
 
 function DurationControls({changeSession, changeBreak}){
-  // const handleClick=(type,change)=>{
-  //   switch(type){
-  //     case "s" : 
-  //     {
-  //       if(session + change < 1){
-  //         return;
-  //       }
-  //       setSession(session + change);
-  //     }
-  //     break;
-  //     case "b" : {
-  //       if(breakVal + change < 1){
-  //         return;
-  //       }
-  //       setBreak(breakVal + change);
-  //     };
-  //     break;
-  //     default:{
-  //       return null;
-  //     }
-  //   };
-
-  // }
   return (
     <div id="duration-ctrls">
       <div id="break-ctrl">

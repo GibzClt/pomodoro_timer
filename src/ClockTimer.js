@@ -10,13 +10,18 @@ import {Provider, connect} from 'react-redux';
 const initialState  = {
   sessionTime : 1500,
   breakTime : 300,
+  playSession : false,
+  playBreak : false
 }
 
 const sessionReducer = (state=initialState, action)=>{
   switch(action.type){
     case "SINCREASE" : return {...state, sessionTime : state.sessionTime + 60};
     case "SDECREASE" : return {...state, sessionTime : state.sessionTime - 60};
-    case "RESET" : return {sessionTime : 1500, breakTime : 300};
+    case "SSTART" : return {...state, sessionTime : state.sessionTime - 1};
+    case "SPLAY" : return {...state, playSession : true};
+    case "SPAUSE" : return {...state, playSession : false};
+    case "RESET" : return { sessionTime : 1500, breakTime : 300, playSession : false, playBreak : false};
     default : return state;
   }
 }
@@ -25,7 +30,10 @@ const breakReducer = (state=initialState, action)=>{
   switch(action.type){
     case "BINCREASE" : return {...state, breakTime : state.breakTime + 60};
     case "BDECREASE" : return {...state, breakTime : state.breakTime - 60};
-    case "RESET" : return {sessionTime : 1500, breakTime : 300};
+    case "BSTART" : return {...state, breakTime : state.breakTime - 1};
+    case "BPLAY" : return {...state, playBreak : true};
+    case "BPAUSE" : return {...state, playBreak : false};
+    case "RESET" : return {sessionTime : 1500, breakTime : 300, playBreak : false, playSession : false};
     default : return state;
   }
 }
@@ -44,10 +52,17 @@ const actionCreator = (type)=>{
     case "s+" : return {type  : "SINCREASE"};
     case "s-" : return {type  : "SDECREASE"};
     case "0" : return {type : "RESET"};
+    case "sON" : return {type : "SPLAY"};
+    case "bON" : return {type : "BPLAY"};
+    case "sOFF" : return {type : "SPAUSE"};
+    case "bOFF" : return {type : "BPAUSE"};
+    case "sCHANGE" : return {type : "SSTART"};
+    case "bCHANGE" : return {type : "BSTART"};
   }
 }
 
 const mapStateToProps = (state)=>{
+  console.log(state);
   return {
     session  : state.session,
     breakVal : state.breakVal
@@ -58,7 +73,7 @@ const mapDispatchToProps = (dispatch)=>{
   console.log(dispatch)
   return{
     changeSession : (type)=>dispatch(actionCreator(type)),
-    changeBreak : (type)=>dispatch(actionCreator(type))
+    changeBreak : (type)=>dispatch(actionCreator(type)),
   }
 }
 
@@ -78,38 +93,5 @@ function ClockTimer(){
     </div>
   )
 }
-
-
-
-// function ClockTimer(){
-//   const [sessionTime, setSessionTime] = useState(1500);
-//   const [breakTime, setBreakTime] = useState(300);
-//   const [play, setPlay] = useState(false);
-
-//   useEffect(()=>{
-//     let interval = setInterval(func, 1000);
-//     if(!play){
-//       clearInterval(interval);
-//     }
-//     return ()=>clearInterval(interval);
-//   }, [sessionTime, play]);
-
-//   function func(){
-//     if(!play){
-//       return;
-//     }
-//     setSessionTime(sessionTime - 1);
-//     console.log(sessionTime);
-//   }
-
-//   return (
-//     <div id="clock-timer">
-//       <Title title="Pomodoro Timer"/>
-//       <DurationControls session={sessionTime} breakVal = {breakTime} setSession={setSessionTime} setBreak={setBreakTime}/>
-//       <Display session={sessionTime} breakVal={breakTime} setSession={setSessionTime} setBreak={setBreakTime}/>
-//       <MainControls play={play} setPlay={setPlay} setSession={setSessionTime} setBreak={setBreakTime}/>
-//     </div>
-//   )
-// }
 
 export default ClockTimer;

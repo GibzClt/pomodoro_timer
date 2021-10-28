@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-function MainControls({changeSession, changeBreak}){
+function MainControls({changeSession, changeBreak, session, breakVal}){
 
-  // const handlePlayClick=()=>{
-  //   if(play){
-  //     setPlay(false);
-  //   }else{
-  //     setPlay(true);
-  //   }
-  // }
+  useEffect(()=>{
+    if(session.sessionTime === 0){
+      changeSession("sOFF");
+      changeBreak("bON");
+    }
+  }, [session.sessionTime]);
+
+  useEffect(()=>{
+    if(breakVal.breakTime === 0){
+      changeBreak("bOFF");
+      changeSession("sON");
+    }
+  }, [breakVal.breakTime])
+
+  const handlePlayClick=()=>{
+    if(session.playSession){
+      changeSession("sOFF");
+    } else if(breakVal.playBreak){
+      changeBreak("bOFF");
+    }
+    else{
+      changeSession("sON");
+    }
+  }
 
   const handleResetClick=()=>{
     changeBreak("0");
@@ -16,7 +33,7 @@ function MainControls({changeSession, changeBreak}){
 
   return (
     <div>
-      {/* <button onClick={handlePlayClick}>PLAY / PAUSE</button> */}
+      <button onClick={handlePlayClick}>PLAY / PAUSE</button>
       <button onClick={handleResetClick}>RESET</button>
     </div>
   )
