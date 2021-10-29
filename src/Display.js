@@ -26,9 +26,18 @@ function Display({session, breakVal, changeSession, changeBreak}){
 
   return (
     <div>
-      {smin} : {ssec?ssec : "00"}
-      <br />
-      {bmin} : {bsec?bsec : "00"}
+      {session.showSessionCtrl &&
+      <>
+      <h2>Session running</h2>
+      <h3>{smin} : {ssec?ssec : "00"}</h3>
+      </>
+      }
+      {breakVal.showBreakCtrl &&
+      <>
+      <h2>Break running</h2>
+      <h3>{bmin} : {bsec?bsec : "00"}</h3>
+      </>
+      }
     </div>
   )
 }

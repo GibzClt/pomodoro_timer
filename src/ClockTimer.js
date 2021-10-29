@@ -11,7 +11,9 @@ const initialState  = {
   sessionTime : 1500,
   breakTime : 300,
   playSession : false,
-  playBreak : false
+  playBreak : false,
+  showSessionCtrl : true,
+  showBreakCtrl : false
 }
 
 const sessionReducer = (state=initialState, action)=>{
@@ -21,7 +23,8 @@ const sessionReducer = (state=initialState, action)=>{
     case "SSTART" : return {...state, sessionTime : state.sessionTime - 1};
     case "SPLAY" : return {...state, playSession : true};
     case "SPAUSE" : return {...state, playSession : false};
-    case "RESET" : return { sessionTime : 1500, breakTime : 300, playSession : false, playBreak : false};
+    case "RESET" : return initialState;
+    case "SHOWSESSIONCTRL" : return {...state, showSessionCtrl : action.value};
     default : return state;
   }
 }
@@ -33,7 +36,8 @@ const breakReducer = (state=initialState, action)=>{
     case "BSTART" : return {...state, breakTime : state.breakTime - 1};
     case "BPLAY" : return {...state, playBreak : true};
     case "BPAUSE" : return {...state, playBreak : false};
-    case "RESET" : return {sessionTime : 1500, breakTime : 300, playBreak : false, playSession : false};
+    case "RESET" : return initialState;
+    case "SHOWBREAKCTRL" : return {...state, showBreakCtrl : action.value};
     default : return state;
   }
 }
@@ -61,6 +65,14 @@ const actionCreator = (type)=>{
   }
 }
 
+const ctrlCreator = (type, value)=>{
+  // debugger;
+  switch(type){
+    case "sCTRL" : return {type : "SHOWSESSIONCTRL", value};
+    case "bCTRL" : return {type : "SHOWBREAKCTRL", value};
+  }
+}
+
 const mapStateToProps = (state)=>{
   console.log(state);
   return {
@@ -74,6 +86,7 @@ const mapDispatchToProps = (dispatch)=>{
   return{
     changeSession : (type)=>dispatch(actionCreator(type)),
     changeBreak : (type)=>dispatch(actionCreator(type)),
+    changeCtrl : (type, value)=>dispatch(ctrlCreator(type, value))
   }
 }
 
