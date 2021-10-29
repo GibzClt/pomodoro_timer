@@ -2,40 +2,40 @@ import React, { useEffect } from "react";
 
 let sessionInterval;
 let breakInterval;
-function Display({session, breakVal, changeSession, changeBreak}){
+function Display({timer, changeTimer}){
   useEffect(()=>{
-    if(session.playSession){
-       sessionInterval = setInterval(()=>changeSession("sCHANGE"), 1000);
+    if(timer.playSession){
+       sessionInterval = setInterval(()=>changeTimer("sCHANGE"), 1000);
     }else{
       clearInterval(sessionInterval);
     }
-  }, [session.playSession]);
+  }, [timer.playSession]);
 
   useEffect(()=>{
-    if(breakVal.playBreak){
-       breakInterval = setInterval(()=>changeSession("bCHANGE"), 1000);
+    if(timer.playBreak){
+       breakInterval = setInterval(()=>changeTimer("bCHANGE"), 1000);
     }else{
       clearInterval(breakInterval);
     }
-  }, [breakVal.playBreak]);
+  }, [timer.playBreak]);
 
-  const smin = parseInt(session.sessionTime/60);
-  const ssec = session.sessionTime % 60;
-  const bmin = parseInt(breakVal.breakTime/60);
-  const bsec = breakVal.breakTime % 60;
+  const smin = parseInt(timer.sessionRunTime/60);
+  const ssec = timer.sessionRunTime % 60;
+  const bmin = parseInt(timer.breakRunTime/60);
+  const bsec = timer.breakRunTime % 60;
 
   return (
     <div>
-      {session.showSessionCtrl &&
+      {timer.showSessionCtrl &&
       <>
-      <h2>Session running</h2>
-      <h3>{smin} : {ssec?ssec : "00"}</h3>
+      <h2 id="timer-label">Session</h2>
+      <h3 id="time-left">{smin} : {ssec?ssec : "00"}</h3>
       </>
       }
-      {breakVal.showBreakCtrl &&
+      {timer.showBreakCtrl &&
       <>
-      <h2>Break running</h2>
-      <h3>{bmin} : {bsec?bsec : "00"}</h3>
+      <h2 id="timer-label">Break</h2>
+      <h3 id="time-left">{bmin} : {bsec?bsec : "00"}</h3>
       </>
       }
     </div>

@@ -1,53 +1,53 @@
 import React, { useEffect } from "react";
 
-function MainControls({changeSession, changeBreak, session, breakVal, changeCtrl}){
+function MainControls({changeTimer, timer, changeCtrl}){
 
   useEffect(()=>{
-    if(session.sessionTime === 0){
-      changeSession("sOFF");
+    if(timer.sessionRunTime === -1){
+      changeTimer("sOFF");
       changeCtrl("bCTRL", true);
-      changeCtrl("sCTRL", false);
-      changeBreak("bON");
+      changeTimer("s0");
+      changeTimer("bON");
     }
-  }, [session.sessionTime]);
+  }, [timer.sessionRunTime]);
 
   useEffect(()=>{
-    if(breakVal.breakTime === 0){
-      changeBreak("bOFF");
+    if(timer.breakRunTime === -1){
+      changeTimer("bOFF");
       changeCtrl("sCTRL", true);
-      changeCtrl("bCTRL", false);
-      changeSession("sON");
+      changeTimer("b0");
+      changeTimer("sON");
     }
-  }, [breakVal.breakTime])
+  }, [timer.breakRunTime])
 
   const handleSessionPlayClick=()=>{
-    if(session.playSession){
-      changeSession("sOFF");
+    if(timer.playSession){
+      changeTimer("sOFF");
     }
     else{
-      changeSession("sON");
+      changeTimer("sON");
     }
   }
 
   const handleBreakPlayClick=()=>{
-    if(breakVal.playBreak){
-      changeBreak("bOFF");
+    if(timer.playBreak){
+      changeTimer("bOFF");
     }
     else{
-      changeBreak("bON");
+      changeTimer("bON");
     }
   }
 
   const handleResetClick=()=>{
-    changeBreak("0");
+    changeTimer("0");
   }
-  console.log("session.showSessionCtrl", session.showSessionCtrl);
-  console.log("breakVal.showBreakCtrl ", breakVal.showBreakCtrl);
+  console.log("session.showSessionCtrl", timer.showSessionCtrl);
+  console.log("breakVal.showBreakCtrl ", timer.showBreakCtrl);
   return (
     <div>
-      {session.showSessionCtrl && <button onClick={handleSessionPlayClick}>PLAYS / PAUSE</button>}
-      {breakVal.showBreakCtrl && <button onClick={handleBreakPlayClick}>PLAYB / PAUSE</button>}
-      <button onClick={handleResetClick}>RESET</button>
+      {timer.showSessionCtrl && <button id="start_stop" onClick={handleSessionPlayClick}>PLAYS / PAUSE</button>}
+      {timer.showBreakCtrl && <button id="start_stop" onClick={handleBreakPlayClick}>PLAYB / PAUSE</button>}
+      <button id="reset" onClick={handleResetClick}>RESET</button>
     </div>  
   )
 }

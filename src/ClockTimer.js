@@ -3,51 +3,44 @@ import Title from "./Title";
 import DurationControls from "./DurationControls";
 import Display from "./Display";
 import MainControls from "./MainControls";
-import {combineReducers, createStore} from 'redux';
+import {createStore} from 'redux';
 import {Provider, connect} from 'react-redux';
 
 
 const initialState  = {
-  sessionTime : 1500,
-  breakTime : 300,
+  sessionTime : 10,
+  breakTime : 5,
+  sessionRunTime : 10,
+  breakRunTime : 5,
   playSession : false,
   playBreak : false,
   showSessionCtrl : true,
   showBreakCtrl : false
 }
 
-const sessionReducer = (state=initialState, action)=>{
+const reducer = (state=initialState, action)=>{
   switch(action.type){
-    case "SINCREASE" : return {...state, sessionTime : state.sessionTime + 60};
-    case "SDECREASE" : return {...state, sessionTime : state.sessionTime - 60};
-    case "SSTART" : return {...state, sessionTime : state.sessionTime - 1};
+    case "SINCREASE" : return {...state, sessionTime : state.sessionTime + 60, sessionRunTime : state.sessionRunTime + 60};
+    case "SDECREASE" : return {...state, sessionTime : state.sessionTime - 60, sessionRunTime : state.sessionRunTime - 60};
+    case "SSTART" : return {...state, sessionRunTime : state.sessionRunTime - 1};
     case "SPLAY" : return {...state, playSession : true};
     case "SPAUSE" : return {...state, playSession : false};
-    case "RESET" : return initialState;
-    case "SHOWSESSIONCTRL" : return {...state, showSessionCtrl : action.value};
-    default : return state;
-  }
-}
-
-const breakReducer = (state=initialState, action)=>{
-  switch(action.type){
-    case "BINCREASE" : return {...state, breakTime : state.breakTime + 60};
-    case "BDECREASE" : return {...state, breakTime : state.breakTime - 60};
-    case "BSTART" : return {...state, breakTime : state.breakTime - 1};
+    case "SHOWSESSIONCTRL" : return {...state, showSessionCtrl : action.value, showBreakCtrl : !action.value};
+    case "BINCREASE" : return {...state, breakTime : state.breakTime + 60, breakRunTime : state.breakRunTime + 60};
+    case "BDECREASE" : return {...state, breakTime : state.breakTime - 60, breakRunTime : state.breakRunTime - 60};
+    case "BSTART" : return {...state, breakRunTime : state.breakRunTime - 1};
     case "BPLAY" : return {...state, playBreak : true};
     case "BPAUSE" : return {...state, playBreak : false};
     case "RESET" : return initialState;
-    case "SHOWBREAKCTRL" : return {...state, showBreakCtrl : action.value};
+    case "SHOWBREAKCTRL" : return {...state, showBreakCtrl : action.value, showSessionCtrl : !action.value};
+    case "SRESET" : return {...state, sessionTime : initialState.sessionTime, sessionRunTime : initialState.sessionRunTime};
+    case "BRESET" : return {...state, breakTime : initialState.breakTime, breakRunTime : initialState.breakRunTime};
     default : return state;
   }
 }
 
-const allReducers = combineReducers({
-  session : sessionReducer,
-  breakVal : breakReducer
-});
 
-const store = createStore(allReducers);
+const store = createStore(reducer);
 
 const actionCreator = (type)=>{
   switch(type){
@@ -56,6 +49,8 @@ const actionCreator = (type)=>{
     case "s+" : return {type  : "SINCREASE"};
     case "s-" : return {type  : "SDECREASE"};
     case "0" : return {type : "RESET"};
+    case "s0" : return {type : "SRESET"};
+    case "b0" : return {type : "BRESET"};
     case "sON" : return {type : "SPLAY"};
     case "bON" : return {type : "BPLAY"};
     case "sOFF" : return {type : "SPAUSE"};
@@ -66,7 +61,6 @@ const actionCreator = (type)=>{
 }
 
 const ctrlCreator = (type, value)=>{
-  // debugger;
   switch(type){
     case "sCTRL" : return {type : "SHOWSESSIONCTRL", value};
     case "bCTRL" : return {type : "SHOWBREAKCTRL", value};
@@ -76,16 +70,14 @@ const ctrlCreator = (type, value)=>{
 const mapStateToProps = (state)=>{
   console.log(state);
   return {
-    session  : state.session,
-    breakVal : state.breakVal
+    timer : state
   }
 }
 
 const mapDispatchToProps = (dispatch)=>{
   console.log(dispatch)
   return{
-    changeSession : (type)=>dispatch(actionCreator(type)),
-    changeBreak : (type)=>dispatch(actionCreator(type)),
+    changeTimer : (type)=>dispatch(actionCreator(type)),
     changeCtrl : (type, value)=>dispatch(ctrlCreator(type, value))
   }
 }

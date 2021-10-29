@@ -4,3 +4,8 @@
   width : 100%;
   justify-content: space-between;
 }
+
+.ctrls{
+  display: flex;
+  flex-direction: column;
+}
