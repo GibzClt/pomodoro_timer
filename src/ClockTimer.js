@@ -8,10 +8,10 @@ import {Provider, connect} from 'react-redux';
 
 
 const initialState  = {
-  sessionTime : 10,
-  breakTime : 5,
-  sessionRunTime : 10,
-  breakRunTime : 5,
+  sessionTime : 1500,
+  breakTime : 300,
+  sessionRunTime : 1500,
+  breakRunTime : 300,
   playSession : false,
   playBreak : false,
   showSessionCtrl : true,
@@ -33,8 +33,8 @@ const reducer = (state=initialState, action)=>{
     case "BPAUSE" : return {...state, playBreak : false};
     case "RESET" : return initialState;
     case "SHOWBREAKCTRL" : return {...state, showBreakCtrl : action.value, showSessionCtrl : !action.value};
-    case "SRESET" : return {...state, sessionTime : initialState.sessionTime, sessionRunTime : initialState.sessionRunTime};
-    case "BRESET" : return {...state, breakTime : initialState.breakTime, breakRunTime : initialState.breakRunTime};
+    case "SRESET" : return {...state, sessionTime : initialState.sessionTime, sessionRunTime : initialState.sessionRunTime, playSession: false};
+    case "BRESET" : return {...state, breakTime : initialState.breakTime, breakRunTime : initialState.breakRunTime, playBreak : false};
     default : return state;
   }
 }
@@ -68,7 +68,7 @@ const ctrlCreator = (type, value)=>{
 }
 
 const mapStateToProps = (state)=>{
-  console.log(state);
+  // console.log(state);
   return {
     timer : state
   }

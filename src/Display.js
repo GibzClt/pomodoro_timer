@@ -19,23 +19,23 @@ function Display({timer, changeTimer}){
     }
   }, [timer.playBreak]);
 
-  const smin = parseInt(timer.sessionRunTime/60);
-  const ssec = timer.sessionRunTime % 60;
-  const bmin = parseInt(timer.breakRunTime/60);
-  const bsec = timer.breakRunTime % 60;
+  const smin = parseInt(timer.sessionRunTime/60).toString().padStart(2, '0');
+  const ssec = (timer.sessionRunTime % 60).toString().padStart(2, '0');
+  const bmin = parseInt(timer.breakRunTime/60).toString().padStart(2, '0');
+  const bsec = (timer.breakRunTime % 60).toString().padStart(2, '0');
 
   return (
     <div>
       {timer.showSessionCtrl &&
       <>
       <h2 id="timer-label">Session</h2>
-      <h3 id="time-left">{smin} : {ssec?ssec : "00"}</h3>
+      <h3 id="time-left">{smin}:{ssec}</h3>
       </>
       }
       {timer.showBreakCtrl &&
       <>
       <h2 id="timer-label">Break</h2>
-      <h3 id="time-left">{bmin} : {bsec?bsec : "00"}</h3>
+      <h3 id="time-left">{bmin}:{bsec}</h3>
       </>
       }
     </div>

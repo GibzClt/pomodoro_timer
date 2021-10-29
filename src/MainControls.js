@@ -3,8 +3,7 @@ import React, { useEffect } from "react";
 function MainControls({changeTimer, timer, changeCtrl}){
 
   useEffect(()=>{
-    if(timer.sessionRunTime === -1){
-      changeTimer("sOFF");
+    if(timer.sessionRunTime < 0){
       changeCtrl("bCTRL", true);
       changeTimer("s0");
       changeTimer("bON");
@@ -12,8 +11,7 @@ function MainControls({changeTimer, timer, changeCtrl}){
   }, [timer.sessionRunTime]);
 
   useEffect(()=>{
-    if(timer.breakRunTime === -1){
-      changeTimer("bOFF");
+    if(timer.breakRunTime < 0){
       changeCtrl("sCTRL", true);
       changeTimer("b0");
       changeTimer("sON");
@@ -41,8 +39,8 @@ function MainControls({changeTimer, timer, changeCtrl}){
   const handleResetClick=()=>{
     changeTimer("0");
   }
-  console.log("session.showSessionCtrl", timer.showSessionCtrl);
-  console.log("breakVal.showBreakCtrl ", timer.showBreakCtrl);
+  // console.log("session.showSessionCtrl", timer.showSessionCtrl);
+  // console.log("breakVal.showBreakCtrl ", timer.showBreakCtrl);
   return (
     <div>
       {timer.showSessionCtrl && <button id="start_stop" onClick={handleSessionPlayClick}>PLAYS / PAUSE</button>}
