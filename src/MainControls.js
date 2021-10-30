@@ -4,17 +4,17 @@ function MainControls({changeTimer, timer, changeCtrl}){
 
   useEffect(()=>{
     if(timer.sessionRunTime < 0){
+      changeTimer("bON");
       changeCtrl("bCTRL", true);
       changeTimer("s0");
-      changeTimer("bON");
     }
   }, [timer.sessionRunTime]);
 
   useEffect(()=>{
     if(timer.breakRunTime < 0){
+      changeTimer("sON");
       changeCtrl("sCTRL", true);
       changeTimer("b0");
-      changeTimer("sON");
     }
   }, [timer.breakRunTime])
 

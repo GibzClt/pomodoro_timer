@@ -33,8 +33,8 @@ const reducer = (state=initialState, action)=>{
     case "BPAUSE" : return {...state, playBreak : false};
     case "RESET" : return initialState;
     case "SHOWBREAKCTRL" : return {...state, showBreakCtrl : action.value, showSessionCtrl : !action.value};
-    case "SRESET" : return {...state, sessionTime : initialState.sessionTime, sessionRunTime : initialState.sessionRunTime, playSession: false};
-    case "BRESET" : return {...state, breakTime : initialState.breakTime, breakRunTime : initialState.breakRunTime, playBreak : false};
+    case "SRESET" : return {...state, sessionRunTime : state.sessionTime, playSession: false};
+    case "BRESET" : return {...state, breakRunTime : state.breakTime, playBreak : false};
     default : return state;
   }
 }
