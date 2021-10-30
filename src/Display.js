@@ -1,38 +1,47 @@
 import React, { useEffect } from "react";
 
+
+let scount = 0;
+let bcount = 0;
 let sessionInterval;
 let breakInterval;
-function Display({timer, changeTimer}){
+function Display({sessionRunTime, breakRunTime,playSession, playBreak, showSessionCtrl, showBreakCtrl, change, ctrl, action}){
   useEffect(()=>{
-    if(timer.playSession){
-       sessionInterval = setInterval(()=>changeTimer("sCHANGE"), 1000);
+    if(playSession){
+       sessionInterval = accurateInterval(()=>change(action("sCHANGE")), 1000);
     }else{
-      clearInterval(sessionInterval);
+      if(scount++ !== 0){
+        clearSessionInterval()
+        console.log(sessionInterval)
+      }
     }
-  }, [timer.playSession]);
+  }, [playSession]);
 
   useEffect(()=>{
-    if(timer.playBreak){
-       breakInterval = setInterval(()=>changeTimer("bCHANGE"), 1000);
+    if(playBreak){
+       breakInterval = accurateInterval(()=>change(action("bCHANGE")), 1000);
     }else{
-      clearInterval(breakInterval);
+      if(bcount++ !==0){
+        clearBreakInterval()
+        console.log(breakInterval)
+      }
     }
-  }, [timer.playBreak]);
+  }, [playBreak]);
 
-  const smin = parseInt(timer.sessionRunTime/60).toString().padStart(2, '0');
-  const ssec = (timer.sessionRunTime % 60).toString().padStart(2, '0');
-  const bmin = parseInt(timer.breakRunTime/60).toString().padStart(2, '0');
-  const bsec = (timer.breakRunTime % 60).toString().padStart(2, '0');
+  const smin = parseInt(sessionRunTime/60).toString().padStart(2, '0');
+  const ssec = (sessionRunTime % 60).toString().padStart(2, '0');
+  const bmin = parseInt(breakRunTime/60).toString().padStart(2, '0');
+  const bsec = (breakRunTime % 60).toString().padStart(2, '0');
 
   return (
     <div>
-      {timer.showSessionCtrl &&
+      {showSessionCtrl &&
       <>
       <h2 id="timer-label">Session</h2>
       <h3 id="time-left">{smin}:{ssec}</h3>
       </>
       }
-      {timer.showBreakCtrl &&
+      {showBreakCtrl &&
       <>
       <h2 id="timer-label">Break</h2>
       <h3 id="time-left">{bmin}:{bsec}</h3>
@@ -41,5 +50,38 @@ function Display({timer, changeTimer}){
     </div>
   )
 }
+
+export function clearSessionInterval(){
+  if(sessionInterval){
+    sessionInterval.cancel();
+  }
+}
+
+export function clearBreakInterval(){
+  if(breakInterval){
+    breakInterval.cancel();
+  }
+}
+
+const accurateInterval = function (fn, time) {
+  var cancel, nextAt, timeout, wrapper;
+  nextAt = new Date().getTime() + time;
+  timeout = null;
+  wrapper = function () {
+    nextAt += time;
+    timeout = setTimeout(wrapper, nextAt - new Date().getTime());
+    return fn();
+  };
+  cancel = function () {
+    return clearTimeout(timeout);
+  };
+  timeout = setTimeout(wrapper, nextAt - new Date().getTime());
+  return {
+    cancel: cancel
+  };
+};
+
+
+
 
 export default Display;

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useReducer } from "react";
 import Title from "./Title";
 import DurationControls from "./DurationControls";
 import Display from "./Display";
 import MainControls from "./MainControls";
-import {createStore} from 'redux';
-import {Provider, connect} from 'react-redux';
+
+
 
 
 const initialState  = {
@@ -40,8 +40,6 @@ const reducer = (state=initialState, action)=>{
 }
 
 
-const store = createStore(reducer);
-
 const actionCreator = (type)=>{
   switch(type){
     case "b+" : return {type  : "BINCREASE"};
@@ -67,34 +65,16 @@ const ctrlCreator = (type, value)=>{
   }
 }
 
-const mapStateToProps = (state)=>{
-  // console.log(state);
-  return {
-    timer : state
-  }
-}
-
-const mapDispatchToProps = (dispatch)=>{
-  console.log(dispatch)
-  return{
-    changeTimer : (type)=>dispatch(actionCreator(type)),
-    changeCtrl : (type, value)=>dispatch(ctrlCreator(type, value))
-  }
-}
-
-const ConnectedDisplay = connect(mapStateToProps, mapDispatchToProps)(Display);
-const ConnectedDurationCtrls = connect(mapStateToProps, mapDispatchToProps)(DurationControls);
-const ConnectedMainCtrls = connect(mapStateToProps, mapDispatchToProps)(MainControls);
-
 function ClockTimer(){
+
+  const [state, dispatch]= useReducer(reducer, initialState);
+
   return (
     <div id="clock-timer">
       <Title title="Pomodoro Timer"/>
-      <Provider store={store}>
-        <ConnectedDurationCtrls />
-        <ConnectedDisplay />
-        <ConnectedMainCtrls />
-      </Provider>
+      <DurationControls {...state} change={dispatch} action={actionCreator} ctrl={ctrlCreator}/>
+      <Display {...state} change={dispatch} action={actionCreator} ctrl={ctrlCreator}/>
+      <MainControls {...state} change={dispatch} action={actionCreator} ctrl={ctrlCreator}/>
     </div>
   )
 }

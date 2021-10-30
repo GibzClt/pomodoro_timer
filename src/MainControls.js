@@ -1,51 +1,62 @@
 import React, { useEffect } from "react";
-
-function MainControls({changeTimer, timer, changeCtrl}){
-
-  useEffect(()=>{
-    if(timer.sessionRunTime < 0){
-      changeTimer("bON");
-      changeCtrl("bCTRL", true);
-      changeTimer("s0");
-    }
-  }, [timer.sessionRunTime]);
+import {clearSessionInterval} from "./Display";
+import {clearBreakInterval} from "./Display";
+import alarm from "./alarm.mp3";
+function MainControls({sessionRunTime, breakRunTime, playSession, playBreak, showBreakCtrl, showSessionCtrl, change, ctrl, action}){
 
   useEffect(()=>{
-    if(timer.breakRunTime < 0){
-      changeTimer("sON");
-      changeCtrl("sCTRL", true);
-      changeTimer("b0");
+    const audio = document.getElementsByTagName("audio")[0];
+    if(sessionRunTime < 0){
+      clearSessionInterval();
+      audio.play();
+      change(action("bON"));
+      change(ctrl("bCTRL", true));
+      change(action("s0"));
     }
-  }, [timer.breakRunTime])
+  }, [sessionRunTime]);
+
+  useEffect(()=>{
+    const audio = document.getElementsByTagName("audio")[0];
+    if(breakRunTime < 0){
+      clearBreakInterval();
+      audio.play();
+      change(action("sON"));
+      change(ctrl("sCTRL", true));
+      change(action("b0"));
+    }
+  }, [breakRunTime])
 
   const handleSessionPlayClick=()=>{
-    if(timer.playSession){
-      changeTimer("sOFF");
+    if(playSession){
+      change(action("sOFF"));
     }
     else{
-      changeTimer("sON");
+      change(action("sON"));
     }
   }
 
   const handleBreakPlayClick=()=>{
-    if(timer.playBreak){
-      changeTimer("bOFF");
+    if(playBreak){
+      change(action("bOFF"));
     }
     else{
-      changeTimer("bON");
+      change(action("bON"));
     }
   }
 
   const handleResetClick=()=>{
-    changeTimer("0");
+    const audio = document.getElementsByTagName("audio")[0];
+    audio.pause();
+    audio.currentTime = 0;
+    change(action("0"));
   }
-  // console.log("session.showSessionCtrl", timer.showSessionCtrl);
-  // console.log("breakVal.showBreakCtrl ", timer.showBreakCtrl);
+
   return (
     <div>
-      {timer.showSessionCtrl && <button id="start_stop" onClick={handleSessionPlayClick}>PLAYS / PAUSE</button>}
-      {timer.showBreakCtrl && <button id="start_stop" onClick={handleBreakPlayClick}>PLAYB / PAUSE</button>}
+      {showSessionCtrl && <button id="start_stop" onClick={handleSessionPlayClick}>PLAYS / PAUSE</button>}
+      {showBreakCtrl && <button id="start_stop" onClick={handleBreakPlayClick}>PLAYB / PAUSE</button>}
       <button id="reset" onClick={handleResetClick}>RESET</button>
+      <audio id="beep" src={alarm} type="audio/mp3">Your brower does not support audio</audio>
     </div>  
   )
 }
