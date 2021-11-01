@@ -2,10 +2,39 @@
   background-color: rgb(165, 103, 103);
   display : flex;
   width : 100%;
+  flex-basis: 25%;
   justify-content: space-between;
+  padding : 0 2%;
+  box-sizing: border-box;
 }
 
 .ctrls{
   display: flex;
+  flex-direction: row;
+}
+
+#duration-ctrls > div{
+  display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  background-color: chocolate;
+  align-items: center;
+}
+
+#duration-ctrls >div > h3,h4{
+  margin : 0;
+}
+
+#break-length{
+  font-size: 25px;
+}
+
+#session-length{
+  font-size: 25px;
+}
+
+.ctrls > button {
+  border-radius: 30%;
+  color : white;
+  background-color: black;
 }

@@ -2,7 +2,7 @@ import React from "react";
 
 function Title({title}){
   return(
-    <div style={{textAlign : "center"}}>
+    <div id="Title" style={{textAlign : "center"}}>
       {title}
     </div>
   )

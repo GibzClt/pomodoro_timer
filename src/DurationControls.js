@@ -1,5 +1,7 @@
 import React from "react";
 import "./DurationControls.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
 function DurationControls({breakTime, sessionTime, playBreak, playSession, change, action, ctrl}){
 
@@ -19,19 +21,27 @@ function DurationControls({breakTime, sessionTime, playBreak, playSession, chang
   return (
     <div id="duration-ctrls">
       <div id="break-label">
-        <h3>Break ctrl</h3>
+        <h3>Break length</h3>
+        <h4 id="break-length" >{parseInt(breakTime / 60)}</h4>
         <div className="ctrls">
-          <h4 id="break-length" >{parseInt(breakTime / 60)}</h4>
-          <button id="break-increment" onClick={handleClick}>up</button>
-          <button id="break-decrement" onClick={handleClick}>down</button>
+          <button id="break-increment" onClick={handleClick}>
+            <FontAwesomeIcon icon={faArrowUp} />
+          </button>
+          <button id="break-decrement" onClick={handleClick}>
+            <FontAwesomeIcon icon={faArrowDown} />
+          </button>
         </div>
       </div>
       <div id="session-label">
-        <h3>Session ctrl</h3>
+        <h3>Session length</h3>
+        <h4 id="session-length">{parseInt(sessionTime / 60)}</h4>
         <div className="ctrls">
-          <h4 id="session-length">{parseInt(sessionTime / 60)}</h4>
-          <button id="session-increment" onClick={handleClick}>up</button>
-          <button id="session-decrement" onClick={handleClick}>down</button>
+          <button id="session-increment" onClick={handleClick}>
+            <FontAwesomeIcon icon={faArrowUp} />
+          </button>
+          <button id="session-decrement" onClick={handleClick}>
+            <FontAwesomeIcon icon={faArrowDown} />
+          </button>
         </div>
       </div>
     </div>

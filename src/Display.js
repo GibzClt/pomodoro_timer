@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
+import "./Display.css";
 
-
-let scount = 0;
-let bcount = 0;
 let sessionInterval;
 let breakInterval;
 function Display({sessionRunTime, breakRunTime,playSession, playBreak, showSessionCtrl, showBreakCtrl, change, ctrl, action}){
@@ -10,10 +8,8 @@ function Display({sessionRunTime, breakRunTime,playSession, playBreak, showSessi
     if(playSession){
        sessionInterval = accurateInterval(()=>change(action("sCHANGE")), 1000);
     }else{
-      if(scount++ !== 0){
         clearSessionInterval()
         console.log(sessionInterval)
-      }
     }
   }, [playSession]);
 
@@ -21,30 +17,28 @@ function Display({sessionRunTime, breakRunTime,playSession, playBreak, showSessi
     if(playBreak){
        breakInterval = accurateInterval(()=>change(action("bCHANGE")), 1000);
     }else{
-      if(bcount++ !==0){
         clearBreakInterval()
         console.log(breakInterval)
-      }
     }
   }, [playBreak]);
 
-  const smin = parseInt(sessionRunTime/60).toString().padStart(2, '0');
+  const smin = Math.floor(sessionRunTime/60).toString().padStart(2, '0');
   const ssec = (sessionRunTime % 60).toString().padStart(2, '0');
-  const bmin = parseInt(breakRunTime/60).toString().padStart(2, '0');
+  const bmin = Math.floor(breakRunTime/60).toString().padStart(2, '0');
   const bsec = (breakRunTime % 60).toString().padStart(2, '0');
 
   return (
-    <div>
+    <div id="Display">
       {showSessionCtrl &&
       <>
-      <h2 id="timer-label">Session</h2>
-      <h3 id="time-left">{smin}:{ssec}</h3>
+      <p id="timer-label">Session</p>
+      <p id="time-left">{smin}:{ssec}</p>
       </>
       }
       {showBreakCtrl &&
       <>
-      <h2 id="timer-label">Break</h2>
-      <h3 id="time-left">{bmin}:{bsec}</h3>
+      <p id="timer-label">Break</p>
+      <p id="time-left">{bmin}:{bsec}</p>
       </>
       }
     </div>

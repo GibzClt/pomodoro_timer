@@ -1,0 +1,17 @@
+#Display {
+  width : 100%;
+  flex-basis: 45%;
+  background-color: aqua;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#timer-label{
+  font-size: 20px;
+}
+#time-left{
+  font-size : 30px;
+  font-weight: 600;
+}

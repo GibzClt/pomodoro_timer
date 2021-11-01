@@ -25,14 +25,14 @@ const reducer = (state=initialState, action)=>{
     case "SSTART" : return {...state, sessionRunTime : state.sessionRunTime - 1};
     case "SPLAY" : return {...state, playSession : true};
     case "SPAUSE" : return {...state, playSession : false};
-    case "SHOWSESSIONCTRL" : return {...state, showSessionCtrl : action.value, showBreakCtrl : !action.value};
+    case "SHOWSESSIONCTRL" : return {...state, showSessionCtrl : action.value, showBreakCtrl : !action.value, breakRunTime : state.breakTime, playBreak : false, playSession : true};
     case "BINCREASE" : return {...state, breakTime : state.breakTime + 60, breakRunTime : state.breakRunTime + 60};
     case "BDECREASE" : return {...state, breakTime : state.breakTime - 60, breakRunTime : state.breakRunTime - 60};
     case "BSTART" : return {...state, breakRunTime : state.breakRunTime - 1};
     case "BPLAY" : return {...state, playBreak : true};
     case "BPAUSE" : return {...state, playBreak : false};
     case "RESET" : return initialState;
-    case "SHOWBREAKCTRL" : return {...state, showBreakCtrl : action.value, showSessionCtrl : !action.value};
+    case "SHOWBREAKCTRL" : return {...state, showBreakCtrl : action.value, showSessionCtrl : !action.value, sessionRunTime : state.sessionTime, playSession: false, playBreak : true};
     case "SRESET" : return {...state, sessionRunTime : state.sessionTime, playSession: false};
     case "BRESET" : return {...state, breakRunTime : state.breakTime, playBreak : false};
     default : return state;

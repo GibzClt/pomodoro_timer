@@ -1,0 +1,22 @@
+#MainControls{
+  width : 100%;
+  height : 100%;
+  flex-basis : 10%;
+  background-color: cadetblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#MainControls > button {
+  background-color: rgb(53, 53, 53);
+}
+
+#start_stop {
+  color : rgb(155, 238, 155);
+}
+
+#reset {
+  color : rgb(218, 137, 137);
+  font-weight: 600;
+}

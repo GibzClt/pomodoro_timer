@@ -1,28 +1,32 @@
 import React, { useEffect } from "react";
-import {clearSessionInterval} from "./Display";
-import {clearBreakInterval} from "./Display";
 import alarm from "./alarm.mp3";
-function MainControls({sessionRunTime, breakRunTime, playSession, playBreak, showBreakCtrl, showSessionCtrl, change, ctrl, action}){
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPlay, faPause} from "@fortawesome/free-solid-svg-icons";
+import "./MainControls.css";
 
+let audio;
+
+function MainControls({sessionRunTime, breakRunTime, playSession, playBreak, showBreakCtrl, showSessionCtrl, change, ctrl, action}){
   useEffect(()=>{
-    const audio = document.getElementsByTagName("audio")[0];
+    audio = document.getElementsByTagName("audio")[0];
+    if(sessionRunTime < 10){
+      const timeLeft = document.querySelector("#time-left");
+      timeLeft.style.color = "red";
+    }
     if(sessionRunTime < 0){
-      clearSessionInterval();
       audio.play();
-      change(action("bON"));
       change(ctrl("bCTRL", true));
-      change(action("s0"));
     }
   }, [sessionRunTime]);
 
   useEffect(()=>{
-    const audio = document.getElementsByTagName("audio")[0];
+    if(breakRunTime < 10){
+      const timeLeft = document.querySelector("#time-left");
+      timeLeft.style.color = "red";
+    }
     if(breakRunTime < 0){
-      clearBreakInterval();
       audio.play();
-      change(action("sON"));
       change(ctrl("sCTRL", true));
-      change(action("b0"));
     }
   }, [breakRunTime])
 
@@ -45,16 +49,23 @@ function MainControls({sessionRunTime, breakRunTime, playSession, playBreak, sho
   }
 
   const handleResetClick=()=>{
-    const audio = document.getElementsByTagName("audio")[0];
     audio.pause();
     audio.currentTime = 0;
     change(action("0"));
   }
 
   return (
-    <div>
-      {showSessionCtrl && <button id="start_stop" onClick={handleSessionPlayClick}>PLAYS / PAUSE</button>}
-      {showBreakCtrl && <button id="start_stop" onClick={handleBreakPlayClick}>PLAYB / PAUSE</button>}
+    <div id="MainControls">
+      {showSessionCtrl && 
+        <button id="start_stop" onClick={handleSessionPlayClick}>
+          { playSession ?<FontAwesomeIcon icon={faPause} />
+           : <FontAwesomeIcon icon={faPlay} />}
+        </button>}
+      {showBreakCtrl && 
+        <button id="start_stop" onClick={handleBreakPlayClick}>
+          { playBreak ?<FontAwesomeIcon icon={faPause} />
+           : <FontAwesomeIcon icon={faPlay} />}
+        </button>}
       <button id="reset" onClick={handleResetClick}>RESET</button>
       <audio id="beep" src={alarm} type="audio/mp3">Your brower does not support audio</audio>
     </div>  
