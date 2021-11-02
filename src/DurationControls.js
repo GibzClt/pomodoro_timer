@@ -5,9 +5,9 @@ import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons'
 
 function DurationControls({breakTime, sessionTime, playBreak, playSession, change, action, ctrl}){
 
-  const handleClick=(event)=>{
-    const {id} = event.target;
-    switch(id){
+  const handleClick=(type)=>{
+    console.log(type);
+    switch(type){
       case "break-increment" : (breakTime < 3600 && !playBreak && !playSession) && change(action("b+"));
       break;
       case "break-decrement" : (breakTime > 60 && !playBreak && !playSession) && change(action("b-"));
@@ -24,10 +24,10 @@ function DurationControls({breakTime, sessionTime, playBreak, playSession, chang
         <h3>Break length</h3>
         <h4 id="break-length" >{parseInt(breakTime / 60)}</h4>
         <div className="ctrls">
-          <button id="break-increment" onClick={handleClick}>
+          <button id="break-increment" onClick={()=>handleClick("break-increment")}>
             <FontAwesomeIcon icon={faArrowUp} />
           </button>
-          <button id="break-decrement" onClick={handleClick}>
+          <button id="break-decrement" onClick={()=>handleClick("break-decrement")}>
             <FontAwesomeIcon icon={faArrowDown} />
           </button>
         </div>
@@ -36,10 +36,10 @@ function DurationControls({breakTime, sessionTime, playBreak, playSession, chang
         <h3>Session length</h3>
         <h4 id="session-length">{parseInt(sessionTime / 60)}</h4>
         <div className="ctrls">
-          <button id="session-increment" onClick={handleClick}>
+          <button id="session-increment" onClick={()=>handleClick("session-increment")}>
             <FontAwesomeIcon icon={faArrowUp} />
           </button>
-          <button id="session-decrement" onClick={handleClick}>
+          <button id="session-decrement" onClick={()=>handleClick("session-decrement")}>
             <FontAwesomeIcon icon={faArrowDown} />
           </button>
         </div>

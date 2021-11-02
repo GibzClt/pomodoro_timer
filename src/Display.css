@@ -1,7 +1,7 @@
 #Display {
   width : 100%;
   flex-basis: 45%;
-  background-color: aqua;
+  /* background-color: aqua; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,9 +9,16 @@
 }
 
 #timer-label{
-  font-size: 20px;
+  font-size: 30px;
+  font-family: 'Handlee', cursive;
+  margin : 0;
+  border:  1px solid black;
+  padding : 1% 2%;
+  background-color: rgb(175, 175, 60);
+  box-shadow: 0 0 10px 0 rgb(175, 175, 60);
 }
 #time-left{
   font-size : 30px;
   font-weight: 600;
+  font-family:'Righteous','Segoe UI', cursive;
 }

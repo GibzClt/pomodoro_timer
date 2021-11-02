@@ -8,6 +8,21 @@ let audio;
 
 function MainControls({sessionRunTime, breakRunTime, playSession, playBreak, showBreakCtrl, showSessionCtrl, change, ctrl, action}){
   useEffect(()=>{
+    document.addEventListener('keydown', (event)=>{
+      if(event.code === "Space"){
+        if(showSessionCtrl){
+          handleSessionPlayClick()
+        }else{
+          handleBreakPlayClick()
+        }
+      }
+      if(event.code === "Escape"){
+        handleResetClick();
+      }
+    })
+  },[playSession, playBreak])
+  
+  useEffect(()=>{
     audio = document.getElementsByTagName("audio")[0];
     if(sessionRunTime < 10){
       const timeLeft = document.querySelector("#time-left");
@@ -33,6 +48,7 @@ function MainControls({sessionRunTime, breakRunTime, playSession, playBreak, sho
   const handleSessionPlayClick=()=>{
     if(playSession){
       change(action("sOFF"));
+      console.log("i am in ");
     }
     else{
       change(action("sON"));
